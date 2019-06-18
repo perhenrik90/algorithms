@@ -8,39 +8,55 @@ public class PercolationStats{
 
     private int n;
     private int dim;
+    private double [] samples;
     
     public PercolationStats(int n, int trails){
 	n = n;
 	dim = (int) Math.sqrt(n);
-	Percolation p = new Percolation(n);
-	int it  = 0;
-	while(! p.percolates()){
-	    int x = StdRandom.uniform(dim);
-	    int y = StdRandom.uniform(dim);
-	    p.open(x,y);
-	    it += 1;
+	samples = new double[trails];
+
+	for(int i = 0; i < trails; i++){
+	    Percolation p = new Percolation(n);
+	    int it  = 0;
+	    while(! p.percolates()){
+		int x = StdRandom.uniform(dim)+1;
+		int y = StdRandom.uniform(dim)+1;
+		p.open(x,y);
+		it += 1;
+	    }
+	    double sample = (double) p.numberOfOpenSites() / n;
+
+	    samples[i] = sample;
 	}
-	System.out.println(p.numberOfOpenSites());
-	System.out.println(it);	
-	double sample = (double) p.numberOfOpenSites() / n;
-	System.out.println(sample);
+
     }
     public double mean(){
-	return 0;
+	return StdStats.mean(samples);
     }
     public double stddev(){
-	return 0;
+	return StdStats.stddev(samples);
     }
     public double confidenceLo(){
-	return 0;
+	double z = (n - mean()) / stddev();
+	return mean() + z * (stddev() / dim);
     }
     public double confidenceHi(){
-	return 0;	
+	double z = (n - mean()) / stddev();	
+	return mean() - z * (stddev() / dim);
+	
     }
 
     public static void main(String[] args){
-	PercolationStats ps = new PercolationStats(16,4);
+	// Parse input
+	int n = Integer.parseInt(args[0]);
+	int T = Integer.parseInt(args[1]);
+
+	n = n * n;
 	
+	PercolationStats ps = new PercolationStats(n,T);
+	System.out.println("mean                    = "+ps.mean());
+	System.out.println("stddev                  = "+ps.stddev());
+	System.out.println("95% confidence interval = ["+ps.confidenceLo()+", "+ps.confidenceHi()+"]");
     }
     
 

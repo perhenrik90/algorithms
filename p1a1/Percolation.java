@@ -48,25 +48,26 @@ public class Percolation {
      * Open a site
      ******************/
     public void open(int row, int col){
-	
+	row = row -1 ;
+	col = col -1 ;
 	if(row*dim+col >= size){
 	    throw new IllegalArgumentException("Trying to get a value outside the parculation array.");
 	}
-	if( isOpen(row,col)){
+	if( isOpen(row+1,col+1)){
  	    return;
 	}
        
 	if(col+1< dim)
-	    if(isOpen(row,col+1))	    
+	    if(isOpen(row+1,col+2))	    
 		uf.union(row*dim+col, row*(col+1));
 	if(col-1>=0)
-	    if(isOpen(row,col-1))	    
+	    if(isOpen(row+1,col))	    
 		uf.union(row*dim+col, row*(col-1));
 	if(row+1<dim)
-	    if(isOpen(row+1,col))
+	    if(isOpen(row+2,col+1))
 		uf.union(row*dim+col, (row+1)*col);
 	if(row-1>=0)
-	    if(isOpen(row-1,col))
+	    if(isOpen(row,col+1))
 		uf.union(row*dim+col, (row-1)*col);
 	
 	sites[row*dim+col] = 1;
@@ -79,6 +80,9 @@ public class Percolation {
 
     
     public boolean isOpen(int row, int col){
+	row = row -1 ;
+	col = col -1 ;
+	
 	if(row*dim+col >= size){
 	    throw new IllegalArgumentException("Trying to get a value outside the parculation array.");
 	}
@@ -90,6 +94,9 @@ public class Percolation {
     }
 
     public boolean isFull(int row, int col){
+	row = row -1 ;
+	col = col -1 ;
+	
 	if(row*dim+col >= size){
 	    throw new IllegalArgumentException("Trying to get a value outside the parculation array.");
 	}
@@ -111,22 +118,21 @@ public class Percolation {
     public static void main(String[] args){
 	Percolation p = new Percolation(16);
 	System.out.println(p.percolates());
-	System.out.println(p.numberOfOpenSites());
-	p.open(0,2);
+	p.open(1,1);
 	System.out.println(p.percolates());
 	System.out.println(p.numberOfOpenSites());
-	p.open(0,2);
+	p.open(1,1);
 	System.out.println(p.numberOfOpenSites());
-	p.open(1,2);
+
 	System.out.println(p.percolates());
 	System.out.println(p.numberOfOpenSites());
-	p.open(2,2);
-	System.out.println(p.percolates());
-	System.out.println(p.numberOfOpenSites());	
-	p.open(2,3);
+	p.open(2,1);
 	System.out.println(p.percolates());
 	System.out.println(p.numberOfOpenSites());
-	p.open(3,3);
+	p.open(3,1);
+	System.out.println(p.percolates());
+	System.out.println(p.numberOfOpenSites());
+	p.open(4,1);
 	System.out.println(p.percolates());
 	System.out.println(p.numberOfOpenSites());
     }
