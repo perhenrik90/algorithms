@@ -6,13 +6,12 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class PercolationStats{
 
-    private int n;
+
     private int dim;
     private double [] samples;
     
     public PercolationStats(int n, int trails){
-	n = n;
-	dim = (int) Math.sqrt(n);
+	dim = n;
 	samples = new double[trails];
 
 	for(int i = 0; i < trails; i++){
@@ -24,8 +23,7 @@ public class PercolationStats{
 		p.open(x,y);
 		it += 1;
 	    }
-	    double sample = (double) p.numberOfOpenSites() / n;
-
+	    double sample = (double) p.numberOfOpenSites() / (n*n);
 	    samples[i] = sample;
 	}
 
@@ -51,8 +49,27 @@ public class PercolationStats{
 	int n = Integer.parseInt(args[0]);
 	int T = Integer.parseInt(args[1]);
 
-	n = n * n;
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	PercolationStats ps = new PercolationStats(n,T);
 	System.out.println("mean                    = "+ps.mean());
 	System.out.println("stddev                  = "+ps.stddev());
