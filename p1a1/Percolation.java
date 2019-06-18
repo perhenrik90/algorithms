@@ -105,7 +105,7 @@ public class Percolation {
 	return percolates;
     }
 
-    public static void main(String [] args){
+    public static void main(String[] args){
 	Percolation p = new Percolation(16);
 	System.out.println(p.percolates());
 	p.open(0,2);
