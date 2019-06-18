@@ -1,4 +1,3 @@
-import java.lang.IllegalArgumentException;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
@@ -6,14 +5,22 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class PercolationStats{
 
-
-    private int dim;
-    private double [] samples;
+    private final double [] samples;
+    private final int T;
+    private final double Z = 1.96
     
     public PercolationStats(int n, int trails){
 	dim = n;
 	samples = new double[trails];
+	T = trails;
 
+	if(trails <= 0){
+	    throw new IllegalArgumentException("Trails can not be less than equal zero.");
+	}
+	if(n <= 0){
+	    throw new IllegalArgumentException("N must be higher than zero..");
+	}
+	
 	for(int i = 0; i < trails; i++){
 	    Percolation p = new Percolation(n);
 	    int it  = 0;
@@ -35,13 +42,10 @@ public class PercolationStats{
 	return StdStats.stddev(samples);
     }
     public double confidenceLo(){
-	double z = (n - mean()) / stddev();
-	return mean() + z * (stddev() / dim);
+	return mean() - Z * stddev() / Math.sqrt(T);
     }
     public double confidenceHi(){
-	double z = (n - mean()) / stddev();	
-	return mean() - z * (stddev() / dim);
-	
+	return mean() + Z * stddev() / Math.sqrt(T);
     }
 
     public static void main(String[] args){

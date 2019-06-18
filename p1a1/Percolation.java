@@ -1,20 +1,16 @@
 //import java.util.Scanner;
-import java.lang.IllegalArgumentException;
-
-import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
 
-
+    
     private final WeightedQuickUnionUF uf; // Union find holder
     private int openSites = 0;
-    private int [] sites;
-    private int size = 0;
-    private int dim = 0;
-    private int virtual_top;
-    private int virtual_bottom;
+    private final int [] sites;
+    private final int size;
+    private final int dim;
+    private final int virtualTop;
+    private final int virtualBottom;
 
     private boolean percolates = false;
     
@@ -24,8 +20,8 @@ public class Percolation {
 	}
 	size = i*i;
 	dim = i;
-	virtual_top = size+1;
-	virtual_bottom = size+2;
+	virtualTop = size+1;
+	virtualBottom = size+2;
 	
 	uf = new WeightedQuickUnionUF(size+3);
 	
@@ -35,77 +31,83 @@ public class Percolation {
 	    sites[x] = 0;
 	    
 	    if(x < dim){
-		uf.union(virtual_top, x);
+		uf.union(virtualTop, x);
 	    }
 	    else if(x >= size-dim){
-		uf.union(virtual_bottom, x);
+		uf.union(virtualBottom, x);
 	    }
 	}
-
     }
 
+    /**************************************
+     * Converts from to dimensions to one
+     **************************************/
+    private int toOneD(int row, int col){
+	return (row*dim)+col;
+    }
 
     /******************
      * Open a site
      ******************/
     public void open(int row, int col){
-	int row_offset = row -1 ;
-	int col_offset = col -1 ;
+	int rowOffset = row -1 ;
+	int colOffset = col -1 ;
 	
-	if(row_offset*dim+col_offset >= size || row_offset<0 || col_offset<0){
+	if(toOneD(rowOffset, colOffset)  >= size || rowOffset<0 || colOffset<0){
 	    throw new IllegalArgumentException("Trying to get a value outside the parculation array.");
 	}
-	if( isOpen(row,col)){
+	if(isOpen(row,col)){
  	    return;
 	}
        
-	if(col_offset+1 < dim)
+	if(colOffset+1 < dim)
 	    if(isOpen(row,col+1))	    
-		uf.union(row_offset*dim+col_offset, row_offset*dim+(col_offset+1));
-	if(col_offset-1>=0)
+		uf.union(toOneD(rowOffset, colOffset) , rowOffset*dim+(colOffset+1));
+	if(colOffset-1 >= 0)
 	    if(isOpen(row,col-1))	    
-		uf.union(row_offset*dim+col_offset, row_offset*dim+(col_offset-1));
-	if(row_offset+1<dim)
+		uf.union(toOneD(rowOffset, colOffset) , rowOffset*dim+(colOffset-1));
+	if(rowOffset+1 < dim)
 	    if(isOpen(row+1,col))
-		uf.union(row_offset*dim+col_offset, (row_offset+1)*(dim)+col_offset);
-	if(row_offset-1>=0)
+		uf.union(toOneD(rowOffset, colOffset) , (rowOffset+1)*(dim)+colOffset);
+	if(rowOffset-1 >= 0)
 	    if(isOpen(row-1,col))
-		uf.union(row_offset*dim+col_offset, (row_offset-1)*(dim)+col_offset);
+		uf.union(toOneD(rowOffset, colOffset) , (rowOffset-1)*(dim)+colOffset);
 	
-	sites[row_offset*dim+col_offset] = 1;
+	sites[toOneD(rowOffset, colOffset) ] = 1;
 	openSites += 1;
 	
-	if(uf.connected(virtual_top, virtual_bottom)){
+	if(uf.connected(virtualTop, virtualBottom)){
 	    percolates = true;
 	}
     }
 
     
     public boolean isOpen(int row, int col){
-	int row_offset = row-1;
-	int col_offset = col-1;
-	if(row_offset*dim+col_offset >= size || row_offset<0 || col_offset<0){
+	int rowOffset = row-1;
+	int colOffset = col-1;
+	if(toOneD(rowOffset, colOffset)  >= size || rowOffset<0 || colOffset<0){
 	    throw new IllegalArgumentException("Trying to get a value outside the parculation array.");
 	}
 
-	if(sites[row_offset*dim+col_offset] == 1){
+	if(sites[toOneD(rowOffset, colOffset) ] == 1){
 	    return true;
 	}
 	return false;
     }
 
+    
     public boolean isFull(int row, int col){
-	int row_offset = row -1 ;
-	int col_offset = col -1 ;
+	int rowOffset = row -1 ;
+	int colOffset = col -1 ;
 	
-	if(row_offset*dim+col_offset >= size || row_offset<0 || col_offset<0){
+	if(toOneD(rowOffset, colOffset)  >= size || rowOffset<0 || colOffset<0){
 	    throw new IllegalArgumentException("Trying to get a value outside the parculation array.");
 	}
-	
-	if(sites[row_offset*dim+col_offset] == 0){
-	    return true;
+
+	if(isOpen(row,col)){
+	    return uf.connected( virtualTop, toOneD(rowOffset, colOffset));
 	}
-	return false;	
+	return false;
     }
 
     public int numberOfOpenSites(){
@@ -116,8 +118,13 @@ public class Percolation {
 	return percolates;
     }
 
-    // public static void main(String[] args){
+    public static void main(String[] args){
 
+	Percolation p = new Percolation(5);
+
+	System.out.println( p.isFull(1,1));
+	p.open(1,1);
+	System.out.println( p.isFull(1,1));
     // 	Scanner a = new Scanner(System.in);
     // 	int n = a.nextInt();
     // 	Percolation p = new Percolation(n);
@@ -130,5 +137,5 @@ public class Percolation {
     // 	    System.out.println(p.percolates());
     // 	}
 
-    // } 
+    } 
 }
