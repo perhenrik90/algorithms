@@ -7,10 +7,9 @@ public class PercolationStats{
 
     private final double [] samples;
     private final int T;
-    private final double Z = 1.96
+    private static final double Z = 1.96;
     
     public PercolationStats(int n, int trails){
-	dim = n;
 	samples = new double[trails];
 	T = trails;
 
@@ -25,8 +24,8 @@ public class PercolationStats{
 	    Percolation p = new Percolation(n);
 	    int it  = 0;
 	    while(! p.percolates()){
-		int x = StdRandom.uniform(dim)+1;
-		int y = StdRandom.uniform(dim)+1;
+		int x = StdRandom.uniform(n)+1;
+		int y = StdRandom.uniform(n)+1;
 		p.open(x,y);
 		it += 1;
 	    }

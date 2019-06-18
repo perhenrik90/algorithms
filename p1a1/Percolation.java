@@ -14,7 +14,7 @@ public class Percolation {
 
     private boolean percolates = false;
     
-    public Percolation(int i){
+    public Percolation(int i) {
 	if(i <= 0){
 	    throw new IllegalArgumentException("Percolation array can not be less than 1.");
 	}
