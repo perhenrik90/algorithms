@@ -15,7 +15,7 @@ public class Percolation {
     private int virtual_top;
     private int virtual_bottom;
 
-    private boolean percolates;
+    private boolean percolates = false;
     
     public Percolation(int i){
 	if(i <= 0){
@@ -31,18 +31,14 @@ public class Percolation {
 	// Create sites
 	sites = new int[i];
 	for(int x = 0; x < i; x ++){
-
+	    sites[x] = 0;
+	    
 	    if(x < dim){
-		System.out.println("Connecting virtual top");
-		System.out.println(x);
 		uf.union(virtual_top, x);
 	    }
-	    else if(x > size-dim-1){
-		System.out.println("Connecting virtual bottom");
-		System.out.println(x);
+	    else if(x >= size-dim-1){
 		uf.union(virtual_bottom, x);
 	    }
-	    sites[x] = 0;
 	}
 
     }
@@ -56,15 +52,22 @@ public class Percolation {
 	if(row*dim+col >= size){
 	    throw new IllegalArgumentException("Trying to get a value outside the parculation array.");
 	}
-	
+	if( isOpen(row,col)){
+ 	    return;
+	}
+       
 	if(col+1< dim)
-	    uf.union(row*dim+col, row*(col+1));
+	    if(isOpen(row,col+1))	    
+		uf.union(row*dim+col, row*(col+1));
 	if(col-1>=0)
-	    uf.union(row*dim+col, row*(col-1));
+	    if(isOpen(row,col-1))	    
+		uf.union(row*dim+col, row*(col-1));
 	if(row+1<dim)
-	    uf.union(row*dim+col, (row+1)*col);
+	    if(isOpen(row+1,col))
+		uf.union(row*dim+col, (row+1)*col);
 	if(row-1>=0)
-	    uf.union(row*dim+col, (row-1)*col);
+	    if(isOpen(row-1,col))
+		uf.union(row*dim+col, (row-1)*col);
 	
 	sites[row*dim+col] = 1;
 	openSites += 1;
@@ -79,7 +82,7 @@ public class Percolation {
 	if(row*dim+col >= size){
 	    throw new IllegalArgumentException("Trying to get a value outside the parculation array.");
 	}
-	
+
 	if(sites[row*dim+col] == 1){
 	    return true;
 	}
@@ -108,15 +111,23 @@ public class Percolation {
     public static void main(String[] args){
 	Percolation p = new Percolation(16);
 	System.out.println(p.percolates());
+	System.out.println(p.numberOfOpenSites());
 	p.open(0,2);
 	System.out.println(p.percolates());
+	System.out.println(p.numberOfOpenSites());
+	p.open(0,2);
+	System.out.println(p.numberOfOpenSites());
 	p.open(1,2);
 	System.out.println(p.percolates());
+	System.out.println(p.numberOfOpenSites());
 	p.open(2,2);
 	System.out.println(p.percolates());
+	System.out.println(p.numberOfOpenSites());	
 	p.open(2,3);
 	System.out.println(p.percolates());
+	System.out.println(p.numberOfOpenSites());
 	p.open(3,3);
 	System.out.println(p.percolates());
+	System.out.println(p.numberOfOpenSites());
     }
 }
