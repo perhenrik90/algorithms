@@ -59,7 +59,7 @@ public class Deque<Item> implements Iterable<Item>{
 	return false;
     }
     public int size(){
-	return 0;
+	return n;
     }
 
     public void addFirst(Item item){
@@ -80,6 +80,14 @@ public class Deque<Item> implements Iterable<Item>{
 	first = new_first;
 	n += 1;
     }
+
+    public Item removeFirst(){
+	Node out_first = first;
+	first = out_first.next;
+	first.prev = null;
+	n -= 1;
+	return out_first.getItem();
+    }
     public void addLast(Item item){
 	if(last == null){
 	    Node node = new Node(item);
@@ -99,6 +107,15 @@ public class Deque<Item> implements Iterable<Item>{
 	last = new_last;
 	n += 1;
     }
+
+    public Item removeLast(){
+	Node out_last = last;
+	last = out_last.prev;
+	last.next = null;
+	n -= 1;
+	return out_last.getItem();
+    }
+    
     public Iterator<Item> iterator(){
     	DequeIterator di = new DequeIterator();
 	di.setCurrent( first );
@@ -114,6 +131,8 @@ public class Deque<Item> implements Iterable<Item>{
 	q.addLast(2);
 	q.addLast(3);
 	q.addLast(4);
+	q.addFirst(6);
+	q.removeLast();
 
 
 	Iterator x = q.iterator();
@@ -121,6 +140,7 @@ public class Deque<Item> implements Iterable<Item>{
 	for(int i : q){
 	    System.out.println( i);
 	}
+	System.out.println(q.size());
 
     }
 
