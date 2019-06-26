@@ -32,7 +32,16 @@ public class BruteCollinearPoints {
 			if(segAB == segBC && segAB == segCD && segBC == segCD){
 			    n_segments ++;
 			    LineSegment sg = new LineSegment(points[a],points[d]);
-			    segments.add(sg);
+			    boolean add = true;
+			    for(LineSegment x: segments){
+				if(sg.toString().compareTo(x.toString())== 0){
+				    add=false;
+				    break;
+				}
+			    }
+			    if(add){
+				segments.add(sg);
+			    }
 			}
 			
 		    }
@@ -77,6 +86,10 @@ public class BruteCollinearPoints {
 
 	}
 	BruteCollinearPoints b = new BruteCollinearPoints(ps);
-	System.out.println(b.numberOfSegments());
+
+	for(LineSegment ls: b.segments()){
+	    System.out.println(ls.toString());
+	}
+	System.out.println("Segments: "+b.numberOfSegments());
     }
 }

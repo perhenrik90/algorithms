@@ -87,7 +87,14 @@ public class FastCollinearPoints {
 
 	}
 	FastCollinearPoints fc = new FastCollinearPoints(ps);
-	System.out.println(fc.numberOfSegments());	
+
+
+	for(LineSegment ls: fc.segments()){
+	    System.out.println(ls.toString());
+	}
+	System.out.println("Segments: "+fc.numberOfSegments());
+	
+
     }
     
 }
