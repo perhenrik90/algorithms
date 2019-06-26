@@ -21,23 +21,23 @@ public class FastCollinearPoints {
 	    
 	    Point [] ordered = Arrays.copyOfRange(points, i+1, points.length);
 	    Arrays.sort(ordered, first.slopeOrder());
-	    // System.out.println("-----------------");
+	    // System.out.println("----");
 	    for(Point q : ordered){
-		// System.out.println(first.slopeTo(q));
-		// System.out.println("sim: "+sim);
-		if(last_slope == first.slopeTo(q) || last_slope == Double.NEGATIVE_INFINITY){
+		// System.out.println( first.slopeTo(q));
+		if(last_slope == first.slopeTo(q) || last_point == null){
 		    sim += 1;
+		    // System.out.println("nn: "+sim);
 		    last_point = q;
 		    last_slope = first.slopeTo(q);
 		}
 		else{
 		    
-		    if(sim >= 2){
+		    if(sim >= 3){
 			LineSegment sg = new LineSegment(first, last_point);
 			segments.add(sg);
 		    }
 		    
-		    sim = 0;
+		    sim = 1;
 		    last_slope = first.slopeTo(q);
 		    last_point = q;
 		}

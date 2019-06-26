@@ -9,25 +9,26 @@ public class BruteCollinearPoints {
     private final LinkedList<LineSegment> segments;
     
     public BruteCollinearPoints(Point[] points){
-	checkNull(points);
-	checkDuplicates(points);
-	
-	Arrays.sort(points);
+	Point [] ordered = new Point[points.length];	
+	System.arraycopy( points, 0, ordered, 0, points.length );
+	checkNull(ordered);
+	checkDuplicates(ordered);
+	Arrays.sort(ordered);
 	segments = new LinkedList<LineSegment>();
 	
-	for(int a = 0; a < points.length; a ++){
-	    for(int b = a+1; b < points.length; b ++){
-		double segAB = points[a].slopeTo( points[b] );
+	for(int a = 0; a < ordered.length; a ++){
+	    for(int b = a+1; b < ordered.length; b ++){
+		double segAB = ordered[a].slopeTo( ordered[b] );
 		
-		for(int c = b+1; c < points.length; c++){
-		    double segBC = points[b].slopeTo( points[c]);
+		for(int c = b+1; c < ordered.length; c++){
+		    double segBC = ordered[b].slopeTo( ordered[c]);
 		    
-		    for(int d = c+1; d < points.length; d++){
-			double segCD = points[c].slopeTo( points[d]);
+		    for(int d = c+1; d < ordered.length; d++){
+			double segCD = ordered[c].slopeTo( ordered[d]);
 
 			if(segAB == segBC && segAB == segCD && segBC == segCD){
 
-			    LineSegment sg = new LineSegment(points[a],points[d]);
+			    LineSegment sg = new LineSegment(ordered[a],ordered[d]);
 			    boolean add = true;
 			    for(LineSegment x: segments){
 				if(sg.toString().compareTo(x.toString())== 0){
