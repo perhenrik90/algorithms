@@ -9,6 +9,7 @@ public class FastCollinearPoints {
     
     public FastCollinearPoints(Point[] points){
 	checkNull(points);
+	checkDuplicates(points);
 	segments = new LinkedList<LineSegment>();
 	
 	for(int i  = 0; i < points.length; i ++){
@@ -67,6 +68,23 @@ public class FastCollinearPoints {
                 throw new IllegalArgumentException("The array \"Points\" contains null element.");
             }
         }
+    }
+
+    private void checkDuplicates(Point [] points){
+	Point [] ordered = points.clone();
+	Arrays.sort(ordered);
+
+	Point last = null;
+	for(Point p : ordered){
+
+	    if(last != null){
+		if(p.toString().compareTo( last.toString()) == 0){
+		    throw new IllegalArgumentException("The array \"Points\" contains duplicate elements.");
+		}
+		    
+	    }
+	    last = p;
+	}
     }
     
 
