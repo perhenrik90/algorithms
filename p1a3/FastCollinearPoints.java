@@ -9,7 +9,6 @@ public class FastCollinearPoints {
     
     public FastCollinearPoints(Point[] points){
 	checkNull(points);
-	points = points;
 	segments = new LinkedList<LineSegment>();
 	
 	for(int i  = 0; i < points.length; i ++){
@@ -58,13 +57,14 @@ public class FastCollinearPoints {
     }// the line segments
 
 
+
     private void checkNull(Point[] points) {
         if (points == null) {
-            throw new NullPointerException("The array \"Points\" is null.");
+            throw new IllegalArgumentException("The array \"Points\" is null.");
         }
         for (Point p : points) {
             if (p == null) {
-                throw new NullPointerException("The array \"Points\" contains null element.");
+                throw new IllegalArgumentException("The array \"Points\" contains null element.");
             }
         }
     }

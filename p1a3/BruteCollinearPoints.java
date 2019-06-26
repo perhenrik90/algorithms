@@ -10,7 +10,8 @@ public class BruteCollinearPoints {
     
     public BruteCollinearPoints(Point[] points){
 	checkNull(points);
-
+	checkDuplicates(points);
+	
 	Arrays.sort(points);
 	segments = new LinkedList<LineSegment>();
 	
@@ -48,13 +49,30 @@ public class BruteCollinearPoints {
 
     private void checkNull(Point[] points) {
         if (points == null) {
-            throw new NullPointerException("The array \"Points\" is null.");
+            throw new IllegalArgumentException("The array \"Points\" is null.");
         }
         for (Point p : points) {
             if (p == null) {
-                throw new NullPointerException("The array \"Points\" contains null element.");
+                throw new IllegalArgumentException("The array \"Points\" contains null element.");
             }
         }
+    }
+
+    private void checkDuplicates(Point [] points){
+	Point [] ordered = points.clone();
+	Arrays.sort(ordered);
+
+	Point last = null;
+	for(Point p : ordered){
+
+	    if(last != null){
+		if(p.toString().compareTo( last.toString()) == 0){
+		    throw new IllegalArgumentException("The array \"Points\" contains duplicate elements.");
+		}
+		    
+	    }
+	    last = p;
+	}
     }
 
     public int numberOfSegments(){

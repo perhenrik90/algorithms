@@ -121,11 +121,11 @@ public class Point implements Comparable<Point> {
 	    if(slope1 > slope2){
 		return 1;
 	    }
-	    else if(slope1 == slope2){
-		return 0;
+	    else if(slope1 < slope2){
+		return -1;
 	    }
 	    else{
-		return -1;
+		return 0;
 	    }
 
 
@@ -161,6 +161,6 @@ public class Point implements Comparable<Point> {
 
 	
 	//p1.drawTo(p2);
-	System.out.println(p1.compareTo(p2));
+
     }
 }
