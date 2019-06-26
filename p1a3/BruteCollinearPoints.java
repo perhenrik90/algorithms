@@ -9,9 +9,10 @@ public class BruteCollinearPoints {
     private final LinkedList<LineSegment> segments;
     
     public BruteCollinearPoints(Point[] points){
+	checkNull(points);
 	Point [] ordered = new Point[points.length];	
 	System.arraycopy( points, 0, ordered, 0, points.length );
-	checkNull(ordered);
+
 	checkDuplicates(ordered);
 	Arrays.sort(ordered);
 	segments = new LinkedList<LineSegment>();
