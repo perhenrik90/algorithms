@@ -6,7 +6,6 @@ public class BruteCollinearPoints {
 
 
     private Point points [];
-    
     private int n_segments = 0;
 
     
