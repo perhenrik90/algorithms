@@ -1,6 +1,7 @@
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdIn;
 import java.util.LinkedList;
+import java.util.Arrays;
 
 public class BruteCollinearPoints {
 
@@ -12,7 +13,9 @@ public class BruteCollinearPoints {
     private LinkedList<LineSegment> segments;
     
     public BruteCollinearPoints(Point[] points){
+	checkNull(points);
 	points = points;
+	Arrays.sort(points);
 	segments = new LinkedList<LineSegment>();
 	
 	System.out.println(""+points.length);
@@ -39,6 +42,17 @@ public class BruteCollinearPoints {
 
     }
 
+    private void checkNull(Point[] points) {
+        if (points == null) {
+            throw new NullPointerException("The array \"Points\" is null.");
+        }
+        for (Point p : points) {
+            if (p == null) {
+                throw new NullPointerException("The array \"Points\" contains null element.");
+            }
+        }
+    }
+
     public int numberOfSegments(){
 	return segments.size();
     }
@@ -63,7 +77,6 @@ public class BruteCollinearPoints {
 
 	}
 	BruteCollinearPoints b = new BruteCollinearPoints(ps);
-
 	System.out.println(b.numberOfSegments());
     }
 }
