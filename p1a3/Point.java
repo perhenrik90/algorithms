@@ -68,7 +68,6 @@ public class Point implements Comparable<Point> {
             return 0.0;
 	}
 	double xx = (that.x-x);
-	double yy = (that.y-y);
 	
 	if(xx == 0){
 	    return Double.POSITIVE_INFINITY;
@@ -97,6 +96,9 @@ public class Point implements Comparable<Point> {
 	}
 	if(y == that.y && x < that.x){
 	    return -1;
+	}
+	if(y == that.y && x > that.x){
+	    return 1;
 	}
 	if(y > that.y){
 	    return 1;
@@ -154,8 +156,8 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-	Point p1 = new Point(3,6);
-	Point p2 = new Point(4,4);
+	Point p1 = new Point(6,2);
+	Point p2 = new Point(2,2);
 
 	
 	//p1.drawTo(p2);

@@ -5,9 +5,7 @@ import java.util.LinkedList;
 
 public class FastCollinearPoints {
 
-    private Point points [];
-    private LinkedList<LineSegment> segments;
-
+    private final LinkedList<LineSegment> segments;
     
     public FastCollinearPoints(Point[] points){
 	checkNull(points);
@@ -18,7 +16,7 @@ public class FastCollinearPoints {
 
 	    Point first = points[i];
 	    int sim = 0;
-	    double last_slope = Double.NEGATIVE_INFINITY;;
+	    double last_slope = Double.NEGATIVE_INFINITY;
 	    Point last_point = null;
 	    
 	    Point [] ordered = Arrays.copyOfRange(points, i+1, points.length);

@@ -6,19 +6,14 @@ import java.util.Arrays;
 public class BruteCollinearPoints {
 
 
-    private Point points [];
-    private int n_segments = 0;
-
-    
-    private LinkedList<LineSegment> segments;
+    private final LinkedList<LineSegment> segments;
     
     public BruteCollinearPoints(Point[] points){
 	checkNull(points);
-	points = points;
+
 	Arrays.sort(points);
 	segments = new LinkedList<LineSegment>();
 	
-	System.out.println(""+points.length);
 	for(int a = 0; a < points.length; a ++){
 	    for(int b = a+1; b < points.length; b ++){
 		double segAB = points[a].slopeTo( points[b] );
@@ -30,7 +25,7 @@ public class BruteCollinearPoints {
 			double segCD = points[c].slopeTo( points[d]);
 
 			if(segAB == segBC && segAB == segCD && segBC == segCD){
-			    n_segments ++;
+
 			    LineSegment sg = new LineSegment(points[a],points[d]);
 			    boolean add = true;
 			    for(LineSegment x: segments){
