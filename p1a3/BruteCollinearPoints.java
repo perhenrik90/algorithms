@@ -66,7 +66,7 @@ public class BruteCollinearPoints {
 	for(Point p : ordered){
 
 	    if(last != null){
-		if(p.toString().compareTo( last.toString()) == 0){
+		if(p.compareTo(last) == 0){
 		    throw new IllegalArgumentException("The array \"Points\" contains duplicate elements.");
 		}
 		    
