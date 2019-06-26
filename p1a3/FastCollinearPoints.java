@@ -20,6 +20,7 @@ public class FastCollinearPoints {
 	    Point last_point = null;
 	    
 	    Point [] ordered = Arrays.copyOfRange(points, i+1, points.length);
+	    Arrays.sort(ordered);
 	    Arrays.sort(ordered, first.slopeOrder());
 	    // System.out.println("----");
 	    for(Point q : ordered){
