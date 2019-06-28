@@ -32,17 +32,43 @@ public class Board {
 
     // number of tiles out of place
     public int hamming(){
-	return 0;
+	int compare = 1;
+	int missing = 0;
+	
+	for(int[] row : board){
+	    for(int value: row){
+		if(value != compare){
+		    missing ++;
+		}
+		compare ++;
+	    }
+	}
+	return missing;
     }
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan(){
+
 	return 0;
     }
 
     // is this board the goal board?
     public boolean isGoal(){
-	return board[N-1][N-1] == 0;
+
+	int compare = 1;
+	for(int[] row : board){
+	    for(int value: row){
+		System.out.println(compare+" "+value);
+		if(value != compare && compare < N){
+		    return false;
+		}
+		else if(value != 0 && compare == N*N){
+		    return false;
+		}
+		compare ++;
+	    }
+	}
+	return true;
     }
 
     // does this board equal y?
@@ -74,7 +100,8 @@ public class Board {
 	Board initial = new Board(blocks);
 	System.out.println(initial.toString());
 	System.out.println("dim: "+initial.dimension());
-	System.out.println("goal: "+initial.isGoal());	
+	System.out.println("goal: "+initial.isGoal());
+	System.out.println("hamming: "+initial.hamming());	
     }
 
 }
