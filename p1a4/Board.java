@@ -95,6 +95,13 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y){
+
+	Board yy = (Board) y;
+
+	if(this.N != yy.N){
+	    return false;
+	}
+       
 	return true;
     }
 
