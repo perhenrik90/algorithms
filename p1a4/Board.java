@@ -1,5 +1,6 @@
 import java.util.Iterator;
-import java.util.Queue;
+import java.util.Deque;
+import java.util.LinkedList;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdIn;
 
@@ -107,6 +108,20 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors(){
+	int x = 0;
+	int y = 0;
+	LinkedList<Board> q = new LinkedList<Board>();
+	
+	for(int[] row : board){
+	    for(int value: row){
+		if(value == 0){
+		    System.out.println("Found 0 on "+x+" "+y);
+		}
+		x ++;
+	    }
+	    y ++;
+	}
+
 	return null;
     }
 
@@ -131,7 +146,8 @@ public class Board {
 	System.out.println("dim: "+initial.dimension());
 	System.out.println("goal: "+initial.isGoal());
 	System.out.println("hamming: "+initial.hamming());
-	System.out.println("man: "+initial.manhattan());	
+	System.out.println("man: "+initial.manhattan());
+	initial.neighbors();
     }
 
 }
