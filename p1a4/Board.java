@@ -52,25 +52,25 @@ public class Board {
     public int manhattan(){
 
 	int compare = 1;
-	int iRow = 1;
 	int sum = 0;
 	
 	for(int[] row : board){
 	    for(int value: row){
-		if(value == compare || compare >= N){
+		if(value == compare){
 		    sum += 0;
 		}
 		else{
-		    System.out.println("Value: "+value);
-		    sum += Math.abs(value % iRow);
-		    System.out.println("Sum: "+value % iRow);
+		    if(value == 0){
+			value = N*N;
+		    }
+		    sum += Math.abs(Math.abs(value / N)-Math.abs(compare / N) + Math.abs(value % N)-Math.abs(value % N));
+		    // System.out.println("Sum: "+ sum);
 		}
 		compare ++;
 	    }
-	    iRow ++;
+
 	}
-	
-	return 0;
+	return sum;
     }
 
     // is this board the goal board?
