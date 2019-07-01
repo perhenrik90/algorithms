@@ -39,7 +39,7 @@ public class Board {
 	
 	for(int[] row : board){
 	    for(int value: row){
-		if(value != compare && compare <= (N*N)){
+		if(value != compare && compare != (N*N)){
 		    missing ++;
 		}
 		compare ++;
@@ -56,13 +56,14 @@ public class Board {
 	
 	for(int[] row : board){
 	    for(int value: row){
+		if(value == 0){
+		    value = N*N;
+		}
+		
 		if(value == compare){
 		    sum += 0;
 		}
 		else{
-		    if(value == 0){
-			value = N*N;
-		    }
 		    sum += Math.abs(Math.abs(value / N)-Math.abs(compare / N) + Math.abs(value % N)-Math.abs(value % N));
 		    // System.out.println("Sum: "+ sum);
 		}
