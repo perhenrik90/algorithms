@@ -39,7 +39,7 @@ public class Board {
 	
 	for(int[] row : board){
 	    for(int value: row){
-		if(value != compare && compare <= N){
+		if(value != compare && compare <= (N*N)){
 		    missing ++;
 		}
 		compare ++;
@@ -57,7 +57,7 @@ public class Board {
 	
 	for(int[] row : board){
 	    for(int value: row){
-		if(value == compare){
+		if(value == compare || compare >= N){
 		    sum += 0;
 		}
 		else{
