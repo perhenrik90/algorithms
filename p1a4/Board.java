@@ -1,3 +1,5 @@
+import java.util.Iterator;
+import java.util.Queue;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdIn;
 
@@ -37,7 +39,7 @@ public class Board {
 	
 	for(int[] row : board){
 	    for(int value: row){
-		if(value != compare){
+		if(value != compare && compare <= N){
 		    missing ++;
 		}
 		compare ++;
@@ -49,6 +51,25 @@ public class Board {
     // sum of Manhattan distances between tiles and goal
     public int manhattan(){
 
+	int compare = 1;
+	int iRow = 1;
+	int sum = 0;
+	
+	for(int[] row : board){
+	    for(int value: row){
+		if(value == compare){
+		    sum += 0;
+		}
+		else{
+		    System.out.println("Value: "+value);
+		    sum += Math.abs(value % iRow);
+		    System.out.println("Sum: "+value % iRow);
+		}
+		compare ++;
+	    }
+	    iRow ++;
+	}
+	
 	return 0;
     }
 
@@ -101,7 +122,8 @@ public class Board {
 	System.out.println(initial.toString());
 	System.out.println("dim: "+initial.dimension());
 	System.out.println("goal: "+initial.isGoal());
-	System.out.println("hamming: "+initial.hamming());	
+	System.out.println("hamming: "+initial.hamming());
+	System.out.println("man: "+initial.manhattan());	
     }
 
 }
