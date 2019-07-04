@@ -26,6 +26,9 @@ public class Board {
 		if(N*N > 9 && e < 10){
 		    output +=" ";
 		}
+		if(N*N > 99 && e < 100){
+		    output +=" ";
+		}
 
 	    }
 	    output+="\n";
