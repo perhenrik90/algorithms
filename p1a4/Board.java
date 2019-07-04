@@ -52,14 +52,14 @@ public class Board {
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
-        int sumDistance = 0;
+        int sum = 0;
         for (int row = 0; row < N; row++)
-            for (int j = 0; j < N; j++)
-                if (board[row][j] != 0) {
-                    sumDistance += (Math.abs(j - (board[row][j] - 1) % N) +
-                            Math.abs(row - (board[row][j] - 1) / N));
+            for (int col = 0; col < N; col++)
+                if (board[row][col] != 0) {
+                    sum += (Math.abs(col - (board[row][col] - 1) % N) +
+                            Math.abs(row - (board[row][col] - 1) / N));
                 }
-        return sumDistance;
+        return sum;
 }
 
     // is this board the goal board?
