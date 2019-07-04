@@ -23,6 +23,10 @@ public class Board {
 	for(int[] row: board){
 	    for(int e: row){
 		output += e+" ";
+		if(N*N > 9 && e < 10){
+		    output +=" ";
+		}
+
 	    }
 	    output+="\n";
 	}

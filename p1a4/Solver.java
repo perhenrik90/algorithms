@@ -5,6 +5,9 @@ import edu.princeton.cs.algs4.StdIn;
 public class Solver {
 
     // Comparable
+
+    private Move firstMove;
+    
     private class Move implements Comparable<Move> {
         private Move prev_move = null;
         private Board current_board;
@@ -33,9 +36,9 @@ public class Solver {
 	if (initial == null)
 	    throw new java.lang.NullPointerException();
 
-
 	MinPQ<Move> moves = new MinPQ<Move>();
-	moves.insert(new Move(initial));
+	firstMove = new Move(initial);
+	moves.insert(firstMove);
 
     }
 
