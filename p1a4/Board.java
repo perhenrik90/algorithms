@@ -67,7 +67,7 @@ public class Board {
 		}
 		else{
 		    sum += Math.abs(Math.abs(value / N)-Math.abs(compare / N) + Math.abs(value % N)-Math.abs(value % N));
-		    // System.out.println("Sum: "+ sum);
+
 		}
 		compare ++;
 	    }
@@ -82,7 +82,7 @@ public class Board {
 	int compare = 1;
 	for(int[] row : board){
 	    for(int value: row){
-		System.out.println(compare+" "+value);
+
 		if(value != compare && compare < N){
 		    return false;
 		}
@@ -117,7 +117,6 @@ public class Board {
 	    int cols = 0;
 	    for(int value: row){
 		if(value == 0){
-		    System.out.println("Found 0 on "+cols+" "+rows);
 
 		    if(cols+1 < N){
 			int b[][] = copy(board);
