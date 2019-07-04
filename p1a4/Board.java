@@ -1,6 +1,7 @@
 import java.util.Iterator;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Arrays;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdIn;
 
@@ -108,26 +109,68 @@ public class Board {
 
     // all neighboring boards
     public Iterable<Board> neighbors(){
-	int x = 0;
-	int y = 0;
+
+	int rows = 0;
 	LinkedList<Board> q = new LinkedList<Board>();
 	
 	for(int[] row : board){
+	    int cols = 0;
 	    for(int value: row){
 		if(value == 0){
-		    System.out.println("Found 0 on "+x+" "+y);
+		    System.out.println("Found 0 on "+cols+" "+rows);
+
+		    if(cols+1 < N){
+			int b[][] = copy(board);
+			
+			int buffer = b[rows][cols+1];
+			b[rows][cols+1] = b[rows][cols];
+			b[rows][cols] = buffer;
+			q.add(new Board( b ));
+		    }
+		    if(cols-1 >= 0){
+			int b2[][] = copy(board);			
+		    	int buffer = b2[rows][cols-1];
+		    	b2[rows][cols-1] = b2[rows][cols];
+		    	b2[rows][cols] = buffer;
+		    	q.add(new Board( b2 ));
+		    }
+		    if(rows-1 >= 0){
+			int b2[][] = copy(board);
+			int buffer = b2[rows-1][cols];
+		    	b2[rows-1][cols] = b2[rows][cols];
+		    	b2[rows][cols] = buffer;
+		    	q.add(new Board( b2 ));
+		    }
+		    if(rows+1 < N){
+			int b2[][] = copy(board);									
+		    	int buffer = b2[rows+1][cols];
+		    	b2[rows+1][cols] = b2[rows][cols];
+		    	b2[rows][cols] = buffer;
+		    	q.add(new Board( b2 ));
+		    }
+
+		    break;
 		}
-		x ++;
+		cols ++;
 	    }
-	    y ++;
+	    rows ++;
 	}
 
-	return null;
+	return q;
     }
 
     // a board that is obtained by exchanging any pair of blocks
     public Board twin(){
 	return null;
+    }
+
+    // make a copy of the matrix
+    private static int[][] copy(int[][] src) {
+	int[][] dst = new int[src.length][];
+	for (int i = 0; i < src.length; i++) {
+	    dst[i] = Arrays.copyOf(src[i], src[i].length);
+	}
+	return dst;
     }
 
     // unit testing (not graded)
@@ -147,7 +190,11 @@ public class Board {
 	System.out.println("goal: "+initial.isGoal());
 	System.out.println("hamming: "+initial.hamming());
 	System.out.println("man: "+initial.manhattan());
-	initial.neighbors();
+
+	System.out.println("Neighbours: ");
+	for(Board b: initial.neighbors()){
+	    System.out.println(b.toString());
+	}
     }
 
 }
