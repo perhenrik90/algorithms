@@ -103,6 +103,19 @@ public class Board {
 	if(this.N != yy.N){
 	    return false;
 	}
+
+	int row_it = 0;
+	for(int[] row : board){
+	    int col = 0;
+	    for(int value: row){
+
+		if(value != yy.board[row_it][col]){
+		    return false;
+		}
+		col ++;
+	    }
+	    row_it ++;
+	}
        
 	return true;
     }
