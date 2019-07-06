@@ -22,14 +22,14 @@ public class Board {
 	String output = "";
 	for(int[] row: board){
 	    for(int e: row){
-		output += e+" ";
+
 		if(N*N > 9 && e < 10){
 		    output +=" ";
 		}
 		if(N*N > 99 && e < 100){
 		    output +=" ";
 		}
-
+		output += e+" ";
 	    }
 	    output+="\n";
 	}
