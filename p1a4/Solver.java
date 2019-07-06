@@ -7,10 +7,10 @@ import java.util.Stack;
 public class Solver {
 
     // Comparable
-
+    private Board init_board; 
     private Move firstMove;
     private Move lastMove;
-    
+    private Stack<Board> old_boards;    
     
     private class Move implements Comparable<Move> {
         private Move prev_move = null;
@@ -33,12 +33,12 @@ public class Solver {
         }
     }
 
-    private Stack<Move> old_moves;
+
     
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial){
-
-	old_moves = new Stack<Move>();
+	init_board = initial;
+	old_boards = new Stack<Board>();
 	
 	// trow exception if argument is null
 	if (initial == null)
@@ -50,15 +50,16 @@ public class Solver {
 
 	while(true){
 	    lastMove = pickMove(moves);
-	    old_moves.add(lastMove);
-	    if(lastMove != null && lastMove.current_board.isGoal()){
-		System.out.print("Found goal! Length :"+moves.size());
-		return;
-	    }
+	    old_boards.add(lastMove.current_board);
 	    if(lastMove == null){
-		System.out.print("Got empty ...");
 		return;
 	    }
+
+	    if(lastMove != null && lastMove.current_board.isGoal()){
+		System.out.println(lastMove.current_board);
+		return;
+	    }
+
 	}
 
     }
@@ -72,19 +73,32 @@ public class Solver {
     }
 
     private Move pickMove(MinPQ<Move> moves) {
-        if (moves.isEmpty()) return null;
-
+	System.out.println("S "+moves.size());
+        if (moves.isEmpty()){
+	    return null;
+	}
+	
         Move bestMove = moves.delMin();
-	System.out.println("Out");
-	while( old_moves.search( bestMove ) != -1){
+	while( inOldBoards(bestMove.current_board)){
+
+	    if(moves.isEmpty()){
+		return null;
+	    }
 	    bestMove = moves.delMin();
-	    System.out.println("inn");
 	}
         if (bestMove.current_board.isGoal()) return bestMove;
+	
         for (Board neighbor : bestMove.current_board.neighbors()) {
-            if (bestMove.prev_move == null || !neighbor.equals(bestMove.prev_move.current_board)) {
-                moves.insert(new Move(bestMove, neighbor));
-            }
+
+	    if( bestMove.prev_move != null || !neighbor.equals(bestMove.current_board) ){
+		if( old_boards.search(neighbor) == -1){
+		    moves.insert(new Move(bestMove, neighbor));
+
+		}
+	    }
+            // if (bestMove.prev_move == null || !neighbor.equals(bestMove.prev_move.current_board)) {
+            //     moves.insert(new Move(bestMove, neighbor));
+            // }
         }
         return bestMove;
     }
@@ -95,22 +109,17 @@ public class Solver {
 	int moves = 0;
 	boolean checkMove = true;
 	Move lm = lastMove;
-	int i = 0;
-	
+
 	while(checkMove){
 
-	    if(lm.prev_move == null){
+	    if(lm == null){
 		checkMove = false;
 	    }
 	    else{
 		moves ++;
-		lm = lastMove.prev_move;
+		lm = lm.prev_move;
 	    }
-	    i++;
-	    System.out.println(lm.current_board);
-	    if(i > 4){
-		break;
-	    }
+
 	}
 	return moves;
     }
@@ -129,12 +138,20 @@ public class Solver {
 	    }
 	    else{
 		path_list.add(lm.current_board);
-		lm = lastMove.prev_move;
+		lm = lm.prev_move;
 	    }
 	}
 	return path_list;
     }
 
+    private boolean inOldBoards(Board b2){
+	for(Board b : old_boards){
+	    if(b.equals(b2)){
+		return true;
+	    }
+	}
+	return false;
+    }
     // test client (see below) 
     public static void main(String[] args){
 	// create initial board from file
