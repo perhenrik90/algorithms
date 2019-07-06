@@ -104,7 +104,8 @@ public class Solver {
 	LinkedList<Board> path_list = new LinkedList<Board>();
 	boolean checkMove = true;
 	Move lm = lastMove;
-
+	path_list.add( init_board );
+	
 	while(checkMove){
 
 	    if(lm.prev_move == null){
