@@ -3,6 +3,7 @@ import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdIn;
 import java.util.LinkedList;
 import java.util.Stack;
+import java.util.Collections;
 
 public class Solver {
 
@@ -104,7 +105,7 @@ public class Solver {
 	LinkedList<Board> path_list = new LinkedList<Board>();
 	boolean checkMove = true;
 	Move lm = lastMove;
-	path_list.add( init_board );
+
 	
 	while(checkMove){
 
@@ -116,6 +117,9 @@ public class Solver {
 		lm = lm.prev_move;
 	    }
 	}
+
+	path_list.add( init_board );
+	Collections.reverse(path_list);
 	return path_list;
     }
 
