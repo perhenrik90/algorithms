@@ -2,6 +2,7 @@ import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdIn;
 import java.util.LinkedList;
+import java.util.Stack;
 
 public class Solver {
 
@@ -9,6 +10,7 @@ public class Solver {
 
     private Move firstMove;
     private Move lastMove;
+    
     
     private class Move implements Comparable<Move> {
         private Move prev_move = null;
@@ -30,9 +32,13 @@ public class Solver {
 		+ this.countMoves - that.countMoves;
         }
     }
+
+    private Stack<Move> old_moves;
     
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial){
+
+	old_moves = new Stack<Move>();
 	
 	// trow exception if argument is null
 	if (initial == null)
@@ -44,9 +50,10 @@ public class Solver {
 
 	while(true){
 	    lastMove = pickMove(moves);
+	    old_moves.add(lastMove);
 	    if(lastMove != null && lastMove.current_board.isGoal()){
-		    System.out.print("Found goal!\n");
-		    return;
+		System.out.print("Found goal! Length :"+moves.size());
+		return;
 	    }
 	    if(lastMove == null){
 		System.out.print("Got empty ...");
@@ -68,6 +75,11 @@ public class Solver {
         if (moves.isEmpty()) return null;
 
         Move bestMove = moves.delMin();
+	System.out.println("Out");
+	while( old_moves.search( bestMove ) != -1){
+	    bestMove = moves.delMin();
+	    System.out.println("inn");
+	}
         if (bestMove.current_board.isGoal()) return bestMove;
         for (Board neighbor : bestMove.current_board.neighbors()) {
             if (bestMove.prev_move == null || !neighbor.equals(bestMove.prev_move.current_board)) {
@@ -83,7 +95,8 @@ public class Solver {
 	int moves = 0;
 	boolean checkMove = true;
 	Move lm = lastMove;
-
+	int i = 0;
+	
 	while(checkMove){
 
 	    if(lm.prev_move == null){
@@ -92,6 +105,11 @@ public class Solver {
 	    else{
 		moves ++;
 		lm = lastMove.prev_move;
+	    }
+	    i++;
+	    System.out.println(lm.current_board);
+	    if(i > 4){
+		break;
 	    }
 	}
 	return moves;
