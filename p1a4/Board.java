@@ -3,6 +3,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Arrays;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdIn;
 
 public class Board {
@@ -73,13 +74,10 @@ public class Board {
     public boolean isGoal(){
 
 	int compare = 1;
+	
 	for(int[] row : board){
 	    for(int value: row){
-
-		if(value != compare && compare < N){
-		    return false;
-		}
-		else if(value != 0 && compare == N*N){
+		if(value != compare && value != 0){
 		    return false;
 		}
 		compare ++;
@@ -90,7 +88,9 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y){
-
+	if(y == null){
+	    return true;
+	}
 	Board yy = (Board) y;
 
 	if(this.N != yy.N){
