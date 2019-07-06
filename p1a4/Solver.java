@@ -10,7 +10,7 @@ public class Solver {
     private Board init_board; 
     private Move firstMove;
     private Move lastMove;
-    private Stack<Board> old_boards;    
+
     
     private class Move implements Comparable<Move> {
         private Move prev_move = null;
@@ -38,7 +38,7 @@ public class Solver {
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial){
 	init_board = initial;
-	old_boards = new Stack<Board>();
+
 	
 	// trow exception if argument is null
 	if (initial == null)
@@ -47,19 +47,14 @@ public class Solver {
 	MinPQ<Move> moves = new MinPQ<Move>();
 	firstMove = new Move(initial);
 	moves.insert(firstMove);
-
+	int i = 0;
 	while(true){
 	    lastMove = pickMove(moves);
-	    old_boards.add(lastMove.current_board);
-	    if(lastMove == null){
-		return;
-	    }
-
 	    if(lastMove != null && lastMove.current_board.isGoal()){
-		System.out.println(lastMove.current_board);
 		return;
 	    }
-
+	i ++;
+	if(i > initial.dimension()*initial.dimension()*2) { lastMove = null; break;}
 	}
 
     }
@@ -73,29 +68,24 @@ public class Solver {
     }
 
     private Move pickMove(MinPQ<Move> moves) {
-	System.out.println("S "+moves.size());
+
         if (moves.isEmpty()){
 	    return null;
 	}
 	
         Move bestMove = moves.delMin();
-	while( inOldBoards(bestMove.current_board)){
-
-	    if(moves.isEmpty()){
-		return null;
-	    }
-	    bestMove = moves.delMin();
+	
+        if (bestMove.current_board.isGoal()){
+	    return bestMove;
 	}
-        if (bestMove.current_board.isGoal()) return bestMove;
 	
         for (Board neighbor : bestMove.current_board.neighbors()) {
 
-	    if( bestMove.prev_move != null || !neighbor.equals(bestMove.current_board) ){
-		if( old_boards.search(neighbor) == -1){
-		    moves.insert(new Move(bestMove, neighbor));
-
-		}
+            if (bestMove.prev_move == null || !neighbor.equals(bestMove.prev_move.current_board)) {
+		moves.insert(new Move(bestMove, neighbor));
 	    }
+		
+
             // if (bestMove.prev_move == null || !neighbor.equals(bestMove.prev_move.current_board)) {
             //     moves.insert(new Move(bestMove, neighbor));
             // }
@@ -144,14 +134,9 @@ public class Solver {
 	return path_list;
     }
 
-    private boolean inOldBoards(Board b2){
-	for(Board b : old_boards){
-	    if(b.equals(b2)){
-		return true;
-	    }
-	}
-	return false;
-    }
+
+
+
     // test client (see below) 
     public static void main(String[] args){
 	// create initial board from file
