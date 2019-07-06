@@ -95,23 +95,7 @@ public class Solver {
 
     // min number of moves to solve initial board
     public int moves(){
-
-	int moves = 0;
-	boolean checkMove = true;
-	Move lm = lastMove;
-
-	while(checkMove){
-
-	    if(lm == null){
-		checkMove = false;
-	    }
-	    else{
-		moves ++;
-		lm = lm.prev_move;
-	    }
-
-	}
-	return moves;
+	return lastMove.countMoves;
     }
 
     // sequence of boards in a shortest solution
