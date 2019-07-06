@@ -55,7 +55,7 @@ public class Solver {
 		return;
 	    }
 	i ++;
-	if(i > initial.dimension()*initial.dimension()*2) { lastMove = null; break;}
+	if(i > initial.dimension()*initial.dimension()*initial.dimension()*1000) { lastMove = null; break;}
 	}
 
     }
@@ -69,7 +69,6 @@ public class Solver {
     }
 
     private Move pickMove(MinPQ<Move> moves) {
-
         if (moves.isEmpty()){
 	    return null;
 	}
@@ -85,8 +84,6 @@ public class Solver {
             if (bestMove.prev_move == null || !neighbor.equals(bestMove.prev_move.current_board)) {
 		moves.insert(new Move(bestMove, neighbor));
 	    }
-		
-
             // if (bestMove.prev_move == null || !neighbor.equals(bestMove.prev_move.current_board)) {
             //     moves.insert(new Move(bestMove, neighbor));
             // }
@@ -96,12 +93,18 @@ public class Solver {
 
     // min number of moves to solve initial board
     public int moves(){
-	return lastMove.countMoves;
+	if(isSolvable()){
+	    return lastMove.countMoves;
+	}
+	return -1;
+	
     }
 
     // sequence of boards in a shortest solution
     public Iterable<Board> solution(){
-
+	if(!isSolvable()){
+	    return null;
+	}
 	LinkedList<Board> path_list = new LinkedList<Board>();
 	boolean checkMove = true;
 	Move lm = lastMove;
