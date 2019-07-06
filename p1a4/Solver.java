@@ -1,18 +1,20 @@
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdIn;
+import java.util.LinkedList;
 
 public class Solver {
 
     // Comparable
 
     private Move firstMove;
+    private Move lastMove;
     
     private class Move implements Comparable<Move> {
         private Move prev_move = null;
         private Board current_board;
         private int countMoves = 0;
-
+	
         public Move(Board board) {
             current_board = board;
         }
@@ -40,21 +42,79 @@ public class Solver {
 	firstMove = new Move(initial);
 	moves.insert(firstMove);
 
+	while(true){
+	    lastMove = pickMove(moves);
+	    if(lastMove != null && lastMove.current_board.isGoal()){
+		    System.out.print("Found goal!\n");
+		    return;
+	    }
+	    if(lastMove == null){
+		System.out.print("Got empty ...");
+		return;
+	    }
+	}
+
     }
 
     // is the initial board solvable? (see below)
     public boolean isSolvable(){
+	if(lastMove != null){
+	    return true;
+	}
 	return false;
+    }
+
+    private Move pickMove(MinPQ<Move> moves) {
+        if (moves.isEmpty()) return null;
+
+        Move bestMove = moves.delMin();
+        if (bestMove.current_board.isGoal()) return bestMove;
+        for (Board neighbor : bestMove.current_board.neighbors()) {
+            if (bestMove.prev_move == null || !neighbor.equals(bestMove.prev_move.current_board)) {
+                moves.insert(new Move(bestMove, neighbor));
+            }
+        }
+        return bestMove;
     }
 
     // min number of moves to solve initial board
     public int moves(){
-	return 0;
+
+	int moves = 0;
+	boolean checkMove = true;
+	Move lm = lastMove;
+
+	while(checkMove){
+
+	    if(lm.prev_move == null){
+		checkMove = false;
+	    }
+	    else{
+		moves ++;
+		lm = lastMove.prev_move;
+	    }
+	}
+	return moves;
     }
 
     // sequence of boards in a shortest solution
     public Iterable<Board> solution(){
-	return null;
+
+	LinkedList<Board> path_list = new LinkedList<Board>();
+	boolean checkMove = true;
+	Move lm = lastMove;
+
+	while(checkMove){
+
+	    if(lm.prev_move == null){
+		checkMove = false;
+	    }
+	    else{
+		path_list.add(lm.current_board);
+		lm = lastMove.prev_move;
+	    }
+	}
+	return path_list;
     }
 
     // test client (see below) 
