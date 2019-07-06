@@ -19,7 +19,7 @@ public class Board {
                                            
     // string representation of this board
     public String toString(){
-	String output = "";
+	String output = N+"\n";
 	for(int[] row: board){
 	    for(int e: row){
 
@@ -166,7 +166,15 @@ public class Board {
 
     // a board that is obtained by exchanging any pair of blocks
     public Board twin(){
-	return null;
+
+	int tiles_copy[][] = copy(board);
+	int cols = 1;
+	int rows = 1;
+	
+	int buffer = tiles_copy[rows][cols-1];
+	tiles_copy[rows][cols-1] = tiles_copy[rows][cols];
+	tiles_copy[rows][cols] = buffer;
+	return new Board( tiles_copy );
     }
 
     // make a copy of the matrix
@@ -195,10 +203,16 @@ public class Board {
 	System.out.println("hamming: "+initial.hamming());
 	System.out.println("man: "+initial.manhattan());
 
+	System.out.println("Twinn: ");
+	System.out.println( initial.twin().toString());
+       
+	
 	System.out.println("Neighbours: ");
 	for(Board b: initial.neighbors()){
 	    System.out.println(b.toString());
 	}
+
+	
     }
 
 }
