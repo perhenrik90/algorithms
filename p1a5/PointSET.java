@@ -1,5 +1,9 @@
+import edu.princeton.cs.algs4.SET;
+import edu.princeton.cs.algs4.Point2D;
 
 public class PointSET {
+
+    private SET<Point2D>
    public         PointSET()                               // construct an empty set of points 
    public           boolean isEmpty()                      // is the set empty? 
    public               int size()                         // number of points in the set 
