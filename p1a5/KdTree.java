@@ -16,10 +16,62 @@ public class KdTree{
 	    vertical = vertical;
 	}
 
+	public boolean insert(Point2D child){
+
+	    if(child.x() == point.x() && child.y() == point.y()){
+		return false;
+	    }
+
+	    // if vertical 
+	    if(vertical == true){
+		if(child.x() <= child.x()){
+		    if(l == null){
+			l = new KdNode(child, false);
+			return true;
+		    }
+		    else{
+			l.insert(child);
+		    }
+		}
+		else{
+		    if(r == null){
+			r = new KdNode(child, false);
+			return true;
+		    }
+		    else{
+			r.insert(child);
+		    }
+		}
+	    }
+	    // if hor
+	    else{
+		if(child.y() <= child.y()){
+		    if(l == null){
+			l = new KdNode(child, true);
+			return true;
+		    }
+		    else{
+			l.insert(child);
+		    }
+		}
+		else{
+		    if(r == null){
+			r = new KdNode(child, true);
+			return true;
+		    }
+		    else{
+			r.insert(child);
+		    }
+		}
+	    }
+	    
+	    return false;
+	}
+
     }
 
-    private KdNode root;
-    private int size = 0;
+	private KdNode root;
+	private int size = 0;
     
     public KdTree(){
 	root = null;
@@ -37,7 +89,14 @@ public class KdTree{
     public void insert(Point2D p){
 	if(root == null){
 	    root = new KdNode(p, true);
+	    size ++;
 	}
+	else{
+	    if(root.insert(p)){
+		size += 1;
+	    }
+	}
+			
     }
 
     public boolean contains(Point2D p){
@@ -57,5 +116,14 @@ public class KdTree{
 
 	return null;
 
-    }// a nearest neighbor in the set to point p; null if the set is empty 
+    }// a nearest neighbor in the set to point p; null if the set is empty
+
+
+    public static void main(String [] args){
+	KdTree t = new KdTree();
+
+	t.insert( new Point2D(4,4));
+	t.insert( new Point2D(3,8));
+	System.out.println("Size: "+t.size());
+    }
 }
