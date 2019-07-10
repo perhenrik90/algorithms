@@ -1,28 +1,31 @@
 import edu.princeton.cs.algs4.SET;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
+import edu.princeton.cs.algs4.StdDraw;
 
 public class PointSET {
 
     private SET<Point2D> set;
     
-    public         PointSET(){
+    public PointSET(){
 
     }// construct an empty set of points 
-    public           boolean isEmpty(){
-	return false;
+    public boolean isEmpty(){
+	return set.isEmpty();
     }// is the set empty? 
-    public               int size(){
-	return 1;
+    public int size(){
+	return set.size();
     }
     public void insert(Point2D p){
-	
+	set.add(p);
     }
     public boolean contains(Point2D p){
-	return false;
+	return set.contains(p);
     }
     public void draw(){
-	
+	for(Point2D p: set){
+	    StdDraw.point(p.x(),p.y());
+	}
     }
     public Iterable<Point2D> range(RectHV rect){
 	return null;
