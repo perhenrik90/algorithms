@@ -15,7 +15,7 @@ public class KdTree{
 	    point = p;
 	    vertical = vertical;
 	}
-
+	
 	public boolean insert(Point2D child){
 
 	    if(child.x() == point.x() && child.y() == point.y()){
@@ -24,7 +24,7 @@ public class KdTree{
 
 	    // if vertical 
 	    if(vertical == true){
-		if(child.x() <= child.x()){
+		if(child.x() <= point.x()){
 		    if(l == null){
 			l = new KdNode(child, false);
 			return true;
@@ -45,7 +45,7 @@ public class KdTree{
 	    }
 	    // if hor
 	    else{
-		if(child.y() <= child.y()){
+		if(child.y() <= point.y()){
 		    if(l == null){
 			l = new KdNode(child, true);
 			return true;
@@ -65,6 +65,53 @@ public class KdTree{
 		}
 	    }
 	    
+	    return false;
+	}
+
+	public boolean contians(Point2D search_point, boolean vertical){
+	    
+	    if(search_point.equals(point)){
+		return true;
+	    }
+
+	    // if vertical 
+	    if(vertical == true){
+		if(search_point.x() <= point.x()){
+		    if(l == null){
+			return false;
+		    }
+		    else{
+			l.contians(search_point, false);
+		    }
+		}
+		else{
+		    if(r == null){
+			return false;
+		    }
+		    else{
+			r.contians(search_point, false);
+		    }
+		}
+	    }
+	    // if hor
+	    else{
+		if(search_point.y() <= point.y()){
+		    if(l == null){
+			return false;
+		    }
+		    else{
+			l.contians(search_point, true);
+		    }
+		}
+		else{
+		    if(r == null){
+			return false;
+		    }
+		    else{
+			r.contians(search_point, true);
+		    }
+		}
+	    }
 	    return false;
 	}
 
@@ -100,7 +147,10 @@ public class KdTree{
     }
 
     public boolean contains(Point2D p){
-	return false;
+	if(root == null){
+	    return false;
+	}
+	return root.contians(p, true);
     }
 
     public void draw(){
@@ -125,5 +175,10 @@ public class KdTree{
 	t.insert( new Point2D(4,4));
 	t.insert( new Point2D(3,8));
 	System.out.println("Size: "+t.size());
+
+	System.out.println(t.contains( new Point2D(8,9)));
+	System.out.println(t.contains( new Point2D(4,4)));
+
+	
     }
 }
