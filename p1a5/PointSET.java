@@ -8,7 +8,8 @@ public class PointSET {
     private SET<Point2D> set;
     
     public PointSET(){
-
+	set = new SET<Point2D>();
+	
     }// construct an empty set of points 
     public boolean isEmpty(){
 	return set.isEmpty();
@@ -29,12 +30,32 @@ public class PointSET {
     }
     public Iterable<Point2D> range(RectHV rect){
 	return null;
-    }// all points that are inside the rectangle (or on the boundary) 
+    }// all points that are inside the rectangle (or on the boundary)
+    
     public Point2D nearest(Point2D p){
-	return null;
+
+	Point2D nearestPoint = null;
+        double minDist = Double.MAX_VALUE;
+        for (Point2D point : set) {
+
+            double distance = point.distanceTo(p);
+
+	    if (distance < minDist) {
+                minDist = distance;
+		nearestPoint = point;
+            }
+        }
+	return nearestPoint;
+
     }// a nearest neighbor in the set to point p; null if the set is empty 
 
     public static void main(String[] args){
 	System.out.println("Testing");
+
+	PointSET ps = new PointSET();
+
+	ps.insert( new Point2D(4,5));
+	ps.insert( new Point2D(4,7));
+	ps.draw();
     }// unit testing of the methods (optional) 
 }
