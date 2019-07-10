@@ -35,6 +35,9 @@ public class PointSET {
 
     public Iterable<Point2D> range(RectHV rect){
 
+	if(rect == null){
+	    throw new IllegalArgumentException("Rect can not be null");
+	}
 	SET<Point2D> range_set = new SET<Point2D>();
 
 	for(Point2D p : set){
@@ -46,7 +49,9 @@ public class PointSET {
     }// all points that are inside the rectangle (or on the boundary)
     
     public Point2D nearest(Point2D p){
-
+	if(p == null){
+	    throw new IllegalArgumentException("Point2D can not be null");
+	}
 	Point2D nearestPoint = null;
         double minDist = Double.MAX_VALUE;
         for (Point2D point : set) {
