@@ -9,27 +9,40 @@ public class PointSET {
     
     public PointSET(){
 	set = new SET<Point2D>();
-	
     }// construct an empty set of points 
+
     public boolean isEmpty(){
 	return set.isEmpty();
     }// is the set empty? 
+
     public int size(){
 	return set.size();
     }
+
     public void insert(Point2D p){
 	set.add(p);
     }
+
     public boolean contains(Point2D p){
 	return set.contains(p);
     }
+
     public void draw(){
 	for(Point2D p: set){
 	    StdDraw.point(p.x(),p.y());
 	}
     }
+
     public Iterable<Point2D> range(RectHV rect){
-	return null;
+
+	SET<Point2D> range_set = new SET<Point2D>();
+
+	for(Point2D p : set){
+	    if(rect.contains(p)){
+		range_set.add(p);
+	    }
+	}
+	return range_set;
     }// all points that are inside the rectangle (or on the boundary)
     
     public Point2D nearest(Point2D p){
@@ -57,5 +70,5 @@ public class PointSET {
 	ps.insert( new Point2D(4,5));
 	ps.insert( new Point2D(4,7));
 	ps.draw();
-    }// unit testing of the methods (optional) 
+    }
 }
