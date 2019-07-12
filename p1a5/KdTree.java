@@ -7,33 +7,32 @@ public class KdTree{
 
     private class KdNode{
 	private Point2D point;
-	private boolean vertical;
+	private boolean horizontal;
 	private KdNode l;
 	private KdNode r;
 	
-	KdNode(Point2D p, boolean vertical){
+	KdNode(Point2D p, boolean horizontal){
 	    point = p;
-	    vertical = vertical;
+	    horizontal = horizontal;
 	}
 
-	public KdNode getL(){
-	    return l;
+	public void print(KdNode parrent, int i){
+	    if(parrent != null){
+		System.out.println(point+" | "+parrent.point+" : "+i);
+	    }
+
+	    if(l != null){ l.print(this, i+1);}
+	    if(r != null){ r.print(this, i+1);}
 	}
-	public KdNode getR(){
-	    return r;
-	}
-
-
-
 	public boolean insert(Point2D child){
-	    System.out.println(child);
+	    //System.out.println("In: "+point+" | "+child);
 	    if(child.equals(point)){
 		return false;
 	    }
 
-	    // if vertical 
-	    if(vertical == true){
-		if(child.x() <= point.x()){
+	    // if horizontal 
+	    if(horizontal == true){
+		if(child.x() < point.x()){
 		    if(l == null){
 			l = new KdNode(child, false);
 			return true;
@@ -52,9 +51,9 @@ public class KdTree{
 		    }
 		}
 	    }
-	    // if hor
+	    // if vertical
 	    else{
-		if(child.y() <= point.y()){
+		if(child.y() < point.y()){
 		    if(l == null){
 			l = new KdNode(child, true);
 			return true;
@@ -78,20 +77,20 @@ public class KdTree{
 
 	}
 
-	public boolean contians(Point2D search_point, boolean vertical){
-	    
+	public boolean contains(Point2D search_point, boolean horizontal){
+	    //System.out.println("S: "+point+" | "+search_point);	    
 	    if(search_point.equals(point)){
 		return true;
 	    }
 
-	    // if vertical 
-	    if(vertical == true){
-		if(search_point.x() <= point.x()){
+	    // if horizontal 
+	    if(horizontal == true){
+		if(search_point.x() < point.x()){
 		    if(l == null){
 			return false;
 		    }
 		    else{
-			return l.contians(search_point, false);
+			return l.contains(search_point, false);
 		    }
 		}
 		else{
@@ -99,18 +98,18 @@ public class KdTree{
 			return false;
 		    }
 		    else{
-			return r.contians(search_point, false);
+			return r.contains(search_point, false);
 		    }
 		}
 	    }
 	    // if hor
 	    else{
-		if(search_point.y() <= point.y()){
+		if(search_point.y() < point.y()){
 		    if(l == null){
 			return false;
 		    }
 		    else{
-			return l.contians(search_point, true);
+			return l.contains(search_point, true);
 		    }
 		}
 		else{
@@ -118,48 +117,53 @@ public class KdTree{
 			return false;
 		    }
 		    else{
-			return r.contians(search_point, true);
+			return r.contains(search_point, true);
 		    }
 		}
 	    }
 	}
 
-	public Point2D nearest(Point2D search_node, boolean vertical, KdNode nearest){
-
+	public Point2D nearest(Point2D search_node, boolean horizontal, KdNode nearest){
+	    System.out.print(point);
 	    if(search_node.equals(point)){
+		System.out.println("Bingo");
 		return point;
 	    }
 
-	    // if vertical 
-	    if(vertical == true){
-		if(search_node.x() <= point.x()){
+	    // if horizontal 
+	    if(horizontal == true){
+		if(search_node.x() < point.x()){
+
 		    if(l == null){
 			return nearest.point;
 		    }
 		    else{
+
 			return l.nearest(search_node, false, l);
 		    }
 		}
 		else{
+
 		    if(r == null){
 			return nearest.point;
 		    }
 		    else{
-			return r.nearest(search_node, false, r);
+			return r.nearest(search_node, false, l);
 		    }
 		}
 	    }
-	    // if hor
+	    // if vertical
 	    else{
-		if(search_node.y() <= point.y()){
+		if(search_node.y() < point.y()){
 		    if(l == null){
 			return nearest.point;
 		    }
 		    else{
-			return l.nearest(search_node, true, l);
+			return l.nearest(search_node, true, r);
 		    }
 		}
 		else{
+
 		    if(r == null){
 			return nearest.point;
 		    }
@@ -205,10 +209,11 @@ public class KdTree{
 	if(root == null){
 	    return false;
 	}
-	return root.contians(p, true);
+	return root.contains(p, true);
     }
 
-    public void draw(){
+   public void draw(){
+       root.print(null, 0);
 	// for(Point2D p: set){
 	//     StdDraw.point(p.x(),p.y());
 	// }	
@@ -240,14 +245,15 @@ public class KdTree{
 
 	t.insert( new Point2D(0.7,0.2));
 	t.insert( new Point2D(0.5,0.4));
+	t.insert( new Point2D(0.6,0.2));
+	t.insert( new Point2D(0.7,0.1));
 	t.insert( new Point2D(0.2,0.3));
 	System.out.println("Size: "+t.size());
 
 	System.out.println(t.contains( new Point2D(8,9)));
-	System.out.println(t.contains( new Point2D(0.2,0.3)));
+	System.out.println(t.contains( new Point2D(0.2, 0.3)));
 	
-	System.out.println(t.nearest( new Point2D(0.5,0.4)));
-
-	
+	System.out.println(t.nearest( new Point2D(0.2,0.3)));
+	///t.draw();
     }
 }
