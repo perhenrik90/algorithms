@@ -15,7 +15,16 @@ public class KdTree{
 	    point = p;
 	    vertical = vertical;
 	}
-	
+
+	public KdNode getL(){
+	    return l;
+	}
+	public KdNode getR(){
+	    return r;
+	}
+
+
+
 	public boolean insert(Point2D child){
 	    System.out.println(child);
 	    if(child.equals(point)){
@@ -64,7 +73,8 @@ public class KdTree{
 		    }
 		}
 	    }
-	    
+
+	
 
 	}
 
@@ -109,6 +119,52 @@ public class KdTree{
 		    }
 		    else{
 			return r.contians(search_point, true);
+		    }
+		}
+	    }
+	}
+
+	public Point2D nearest(Point2D search_node, boolean vertical, KdNode nearest){
+
+	    if(search_node.equals(point)){
+		return point;
+	    }
+
+	    // if vertical 
+	    if(vertical == true){
+		if(search_node.x() <= point.x()){
+		    if(l == null){
+			return nearest.point;
+		    }
+		    else{
+			return l.nearest(search_node, false, l);
+		    }
+		}
+		else{
+		    if(r == null){
+			return nearest.point;
+		    }
+		    else{
+			return r.nearest(search_node, false, r);
+		    }
+		}
+	    }
+	    // if hor
+	    else{
+		if(search_node.y() <= point.y()){
+		    if(l == null){
+			return nearest.point;
+		    }
+		    else{
+			return l.nearest(search_node, true, l);
+		    }
+		}
+		else{
+		    if(r == null){
+			return nearest.point;
+		    }
+		    else{
+			return r.nearest(search_node, true, r);
 		    }
 		}
 	    }
@@ -169,7 +225,12 @@ public class KdTree{
 	if(p == null){
 	    throw new IllegalArgumentException("Point2D can not be null");
 	}
-	return null;
+
+	if(root.equals(p)){
+	    return root.point;
+	}
+
+	return root.nearest(p ,true, root);
 
     }// a nearest neighbor in the set to point p; null if the set is empty
 
@@ -184,6 +245,8 @@ public class KdTree{
 
 	System.out.println(t.contains( new Point2D(8,9)));
 	System.out.println(t.contains( new Point2D(0.2,0.3)));
+	
+	System.out.println(t.nearest( new Point2D(0.5,0.4)));
 
 	
     }
