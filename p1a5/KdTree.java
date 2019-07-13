@@ -288,6 +288,9 @@ public class KdTree{
 	if(rect == null){
 	    throw new IllegalArgumentException("Rect can not be null");
 	}
+	if(root == null){
+	    return new SET<Point2D>();
+	}
 	return root.range(rect, true);
 	
     }// all points that are inside the rectangle (or on the boundary)
@@ -295,6 +298,10 @@ public class KdTree{
     public Point2D nearest(Point2D p){
 	if(p == null){
 	    throw new IllegalArgumentException("Point2D can not be null");
+	}
+
+	if(root == null){
+	    return null;
 	}
 
 	if(root.equals(p)){
