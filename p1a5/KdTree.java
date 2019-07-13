@@ -6,19 +6,19 @@ import edu.princeton.cs.algs4.StdDraw;
 public class KdTree{
 
     private class KdNode{
-	private Point2D point;
-	private boolean horizontal;
+	private final Point2D point;
+	private final boolean horizontal;
 	private KdNode l;
 	private KdNode r;
 	
-	KdNode(Point2D p, boolean horizontal){
+	KdNode(Point2D p, boolean h){
 	    point = p;
-	    horizontal = horizontal;
+	    horizontal = h;
 	}
 
 	public void print(KdNode parrent, int i){
 	    if(parrent != null){
-		System.out.println(point+" | "+parrent.point+" : "+i);
+		System.out.println(parrent.point+" | "+point+" : "+i+" hor: "+horizontal);
 	    }
 
 	    if(l != null){ l.print(this, i+1);}
@@ -88,14 +88,14 @@ public class KdTree{
 
 	}
 
-	public boolean contains(Point2D search_point, boolean horizontal){
+	public boolean contains(Point2D search_point, boolean horizontal_func){
 	    //System.out.println("S: "+point+" | "+search_point);	    
 	    if(search_point.equals(point)){
 		return true;
 	    }
 
 	    // if horizontal 
-	    if(horizontal == true){
+	    if(horizontal_func == true){
 		if(search_point.x() < point.x()){
 		    if(l == null){
 			return false;
@@ -136,7 +136,7 @@ public class KdTree{
 
 	}
 
-	public Point2D nearest(Point2D search_node, boolean horizontal, KdNode nearest){
+	public Point2D nearest(Point2D search_node, boolean horizontal_func, KdNode nearest){
 	    //System.out.print(point);
 	    if(search_node.equals(point)){
 		System.out.println("Bingo");
@@ -144,7 +144,7 @@ public class KdTree{
 	    }
 
 	    // if horizontal 
-	    if(horizontal == true){
+	    if(horizontal_func == true){
 		if(search_node.x() < point.x()){
 
 		    if(l == null){
@@ -188,7 +188,7 @@ public class KdTree{
 	}
 
 	// find rectangles in one node
-	public SET<Point2D> range(RectHV rect, boolean horizontal){
+	public SET<Point2D> range(RectHV rect, boolean horizontal_func){
 
 	    SET<Point2D> set = new SET<Point2D>();
 
@@ -197,7 +197,7 @@ public class KdTree{
 	    }
 	    
 	    // if horizontal 
-	    if(horizontal == true){
+	    if(horizontal_func == true){
 		if(rect.xmin() <= point.x()){
 		    if(l != null){
 			set = set.union( l.range(rect, false ));
@@ -262,12 +262,13 @@ public class KdTree{
 	if(root == null){
 	    return false;
 	}
-	return root.contains(p, false);
+	return root.contains(p, true);
     }
 
    public void draw(){
        //root.print(null, 0);
-       root.draw();
+       //root.draw();
+       root.print(root, 1);
 	// for(Point2D p: set){
 	//     StdDraw.point(p.x(),p.y());
 	// }	
@@ -297,23 +298,23 @@ public class KdTree{
 
     public static void main(String [] args){
 	KdTree t = new KdTree();
-
 	t.insert( new Point2D(0.7,0.2));
 	t.insert( new Point2D(0.5,0.4));
-	t.insert( new Point2D(0.6,0.2));
-	t.insert( new Point2D(0.7,0.1));
 	t.insert( new Point2D(0.2,0.3));
+	t.insert( new Point2D(0.4,0.7));
+	t.insert( new Point2D(0.9,0.6));
 	System.out.println("Size: "+t.size());
 
-	System.out.println(t.contains( new Point2D(8,9)));
+	System.out.println(t.contains( new Point2D(0.4,0.7)));
 	System.out.println(t.contains( new Point2D(0.2, 0.3)));
+	System.out.println(t.contains( new Point2D(0.5, 0.4)));
 	
-	System.out.println(t.nearest( new Point2D(0.2,0.4)));
+	// System.out.println(t.nearest( new Point2D(0.2,0.4)));
 
-	RectHV hv = new RectHV(0.1,0.1,0.6,0.6);
-	for(Point2D p: t.range(hv)){
-	    System.out.println("Subset of "+p);
-	}
+	// RectHV hv = new RectHV(0.1,0.1,0.6,0.6);
+	// for(Point2D p: t.range(hv)){
+	//     System.out.println("Subset of "+p);
+	//}
 	
 	t.draw();
     }
