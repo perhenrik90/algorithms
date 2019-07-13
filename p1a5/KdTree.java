@@ -36,6 +36,7 @@ public class KdTree{
 	}
 	
 	public boolean insert(Point2D child){
+	    
 	    //System.out.println("In: "+point+" | "+child);
 	    if(child.equals(point)){
 		return false;
@@ -139,7 +140,6 @@ public class KdTree{
 	public Point2D nearest(Point2D search_node, boolean horizontal_func, KdNode nearest){
 	    //System.out.print(point);
 	    if(search_node.equals(point)){
-		System.out.println("Bingo");
 		return point;
 	    }
 
@@ -246,6 +246,11 @@ public class KdTree{
     }
 
     public void insert(Point2D p){
+
+	if(p == null){
+	    throw new IllegalArgumentException("P can not be null");
+	}
+	
 	if(root == null){
 	    root = new KdNode(p, true);
 	    size ++;
@@ -259,6 +264,11 @@ public class KdTree{
     }
 
     public boolean contains(Point2D p){
+
+	if(p == null){
+	    throw new IllegalArgumentException("P can not be null");
+	}
+
 	if(root == null){
 	    return false;
 	}
@@ -278,7 +288,7 @@ public class KdTree{
 	if(rect == null){
 	    throw new IllegalArgumentException("Rect can not be null");
 	}
-	return root.range(rect, false);
+	return root.range(rect, true);
 	
     }// all points that are inside the rectangle (or on the boundary)
     
@@ -291,7 +301,7 @@ public class KdTree{
 	    return root.point;
 	}
 
-	return root.nearest(p ,false, root);
+	return root.nearest(p ,true, root);
 
     }// a nearest neighbor in the set to point p; null if the set is empty
 
