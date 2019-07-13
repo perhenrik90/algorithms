@@ -214,13 +214,13 @@ public class KdTree{
 	    else {
 		if(rect.ymin() <= point.y()){
 		    if(l != null){
-			set = set.union( l.range(rect, false ));
+			set = set.union( l.range(rect, true ));
 		    }
 		}
 
 		if(rect.ymax() >= point.y()){
 		    if(r != null){
-			set = set.union(r.range(rect, false));
+			set = set.union(r.range(rect, true));
 		    }
 		}
 	    }
