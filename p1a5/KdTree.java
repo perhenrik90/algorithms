@@ -267,8 +267,8 @@ public class KdTree{
 
    public void draw(){
        //root.print(null, 0);
-       //root.draw();
-       root.print(root, 1);
+       root.draw();
+       //root.print(root, 1);
 	// for(Point2D p: set){
 	//     StdDraw.point(p.x(),p.y());
 	// }	
@@ -309,12 +309,12 @@ public class KdTree{
 	System.out.println(t.contains( new Point2D(0.2, 0.3)));
 	System.out.println(t.contains( new Point2D(0.5, 0.4)));
 	
-	// System.out.println(t.nearest( new Point2D(0.2,0.4)));
+	System.out.println(t.nearest( new Point2D(0.2,0.4)));
 
-	// RectHV hv = new RectHV(0.1,0.1,0.6,0.6);
-	// for(Point2D p: t.range(hv)){
-	//     System.out.println("Subset of "+p);
-	//}
+	RectHV hv = new RectHV(0.1,0.1,0.6,0.6);
+	for(Point2D p: t.range(hv)){
+	    System.out.println("Subset of "+p);
+	}
 	
 	t.draw();
     }
