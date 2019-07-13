@@ -24,6 +24,16 @@ public class KdTree{
 	    if(l != null){ l.print(this, i+1);}
 	    if(r != null){ r.print(this, i+1);}
 	}
+
+	public void draw(){
+	    StdDraw.point(point.x(),point.y());
+	    if(l != null){
+		l.draw();
+	    }
+	    if(r != null){
+		r.draw();
+	    }
+	}
 	
 	public boolean insert(Point2D child){
 	    //System.out.println("In: "+point+" | "+child);
@@ -79,7 +89,7 @@ public class KdTree{
 	}
 
 	public boolean contains(Point2D search_point, boolean horizontal){
-	    System.out.println("S: "+point+" | "+search_point);	    
+	    //System.out.println("S: "+point+" | "+search_point);	    
 	    if(search_point.equals(point)){
 		return true;
 	    }
@@ -122,10 +132,12 @@ public class KdTree{
 		    }
 		}
 	    }
+
+
 	}
 
 	public Point2D nearest(Point2D search_node, boolean horizontal, KdNode nearest){
-	    System.out.print(point);
+	    //System.out.print(point);
 	    if(search_node.equals(point)){
 		System.out.println("Bingo");
 		return point;
@@ -175,10 +187,50 @@ public class KdTree{
 	    }
 	}
 
+	// find rectangles in one node
+	public SET<Point2D> range(RectHV rect, boolean horizontal){
+
+	    SET<Point2D> set = new SET<Point2D>();
+
+	    if(rect.contains(point)){
+		set.add(point);
+	    }
+	    
+	    // if horizontal 
+	    if(horizontal == true){
+		if(rect.xmin() <= point.x()){
+		    if(l != null){
+			set = set.union( l.range(rect, false ));
+		    }
+		}
+		
+		if(rect.xmax() >= point.x()){
+		    if(r != null){
+			set = set.union(r.range(rect, false));
+		    }
+		}
+	    }
+	    // if vertical
+	    else {
+		if(rect.ymin() <= point.y()){
+		    if(l != null){
+			set = set.union( l.range(rect, false ));
+		    }
+		}
+
+		if(rect.ymax() >= point.y()){
+		    if(r != null){
+			set = set.union(r.range(rect, false));
+		    }
+		}
+	    }
+	    return set;
+	}
+
     }
 
-	private KdNode root;
-	private int size = 0;
+    private KdNode root;
+    private int size = 0;
     
     public KdTree(){
 	root = null;
@@ -214,7 +266,8 @@ public class KdTree{
     }
 
    public void draw(){
-       root.print(null, 0);
+       //root.print(null, 0);
+       root.draw();
 	// for(Point2D p: set){
 	//     StdDraw.point(p.x(),p.y());
 	// }	
@@ -224,7 +277,8 @@ public class KdTree{
 	if(rect == null){
 	    throw new IllegalArgumentException("Rect can not be null");
 	}
-	return null;
+	return root.range(rect, false);
+	
     }// all points that are inside the rectangle (or on the boundary)
     
     public Point2D nearest(Point2D p){
@@ -254,7 +308,13 @@ public class KdTree{
 	System.out.println(t.contains( new Point2D(8,9)));
 	System.out.println(t.contains( new Point2D(0.2, 0.3)));
 	
-	System.out.println(t.nearest( new Point2D(0.2,0.3)));
-	///t.draw();
+	System.out.println(t.nearest( new Point2D(0.2,0.4)));
+
+	RectHV hv = new RectHV(0.1,0.1,0.6,0.6);
+	for(Point2D p: t.range(hv)){
+	    System.out.println("Subset of "+p);
+	}
+	
+	t.draw();
     }
 }
