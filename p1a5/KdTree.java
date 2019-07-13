@@ -24,6 +24,7 @@ public class KdTree{
 	    if(l != null){ l.print(this, i+1);}
 	    if(r != null){ r.print(this, i+1);}
 	}
+	
 	public boolean insert(Point2D child){
 	    //System.out.println("In: "+point+" | "+child);
 	    if(child.equals(point)){
@@ -78,7 +79,7 @@ public class KdTree{
 	}
 
 	public boolean contains(Point2D search_point, boolean horizontal){
-	    //System.out.println("S: "+point+" | "+search_point);	    
+	    System.out.println("S: "+point+" | "+search_point);	    
 	    if(search_point.equals(point)){
 		return true;
 	    }
@@ -209,7 +210,7 @@ public class KdTree{
 	if(root == null){
 	    return false;
 	}
-	return root.contains(p, true);
+	return root.contains(p, false);
     }
 
    public void draw(){
@@ -235,7 +236,7 @@ public class KdTree{
 	    return root.point;
 	}
 
-	return root.nearest(p ,true, root);
+	return root.nearest(p ,false, root);
 
     }// a nearest neighbor in the set to point p; null if the set is empty
 
