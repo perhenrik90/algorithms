@@ -161,7 +161,7 @@ public class KdTree{
 			return nearest.point;
 		    }
 		    else{
-			return r.nearest(search_node, false, l);
+			return r.nearest(search_node, false, r);
 		    }
 		}
 	    }
@@ -172,7 +172,7 @@ public class KdTree{
 			return nearest.point;
 		    }
 		    else{
-			return l.nearest(search_node, true, r);
+			return l.nearest(search_node, true, l);
 		    }
 		}
 		else{
