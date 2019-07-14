@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.StdDraw;
 
 public class PointSET {
 
-    private SET<Point2D> set;
+    private final SET<Point2D> set;
     
     public PointSET(){
 	set = new SET<Point2D>();
@@ -56,7 +56,7 @@ public class PointSET {
         double minDist = Double.MAX_VALUE;
         for (Point2D point : set) {
 
-            double distance = point.distanceTo(p);
+            double distance = point.distanceSquaredTo(p);
 
 	    if (distance < minDist) {
                 minDist = distance;
